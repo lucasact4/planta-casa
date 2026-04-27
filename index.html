@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Planta Interativa Modular</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-200">
+    <div id="app" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
+        <app-header></app-header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10">
+            <blueprint-map></blueprint-map>
+            <sidebar-panel></sidebar-panel>
+        </div>
+        <modal-gallery 
+            :show="store.showGallery" 
+            :images="store.currentGalleryImages"
+            @close="store.showGallery = false"
+            @open-lightbox="(idx) => store.openLightbox(idx)">
+        </modal-gallery>
+
+        <light-box 
+            v-if="store.showLightbox"
+            :images="store.currentGalleryImages"
+            :index="store.lightboxIndex"
+            @close="store.showLightbox = false"
+            @next="store.nextImage()"
+            @prev="store.prevImage()">
+        </light-box>
+    </div>
+    <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>

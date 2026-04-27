@@ -1,0 +1,67 @@
+body { 
+    background-color: #f8fafc; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+.blueprint-bg {
+    background-size: 20px 20px;
+    background-image:
+        linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+}
+
+.room { transition: filter 0.2s ease-in-out; cursor: pointer; }
+.room:hover { filter: brightness(0.92); }
+.room.active { filter: brightness(0.85); }
+
+/* Estilos de Arquitetura */
+.door-arc { fill: none; stroke: #94a3b8; stroke-width: 1.5; stroke-dasharray: 4 2; }
+.door-leaf { stroke: #334155; stroke-width: 3.5; stroke-linecap: round; }
+.window-box { fill: #ffffff; stroke: #1e293b; stroke-width: 1.5; }
+.window-line { stroke: #1e293b; stroke-width: 1; opacity: 0.7; }
+
+/* Adição: Classes Interativas para Portas e Janelas */
+.interactive-element { cursor: pointer; transition: all 0.2s; }
+
+/* Highlight para Janelas e Passagens */
+.interactive-element:hover .window-box, 
+.interactive-element.active .window-box { fill: #e0f2fe; stroke: #0284c7; }
+
+.interactive-element.passage:hover, 
+.interactive-element.passage.active { fill: #bae6fd; transition: fill 0.2s; }
+
+.interactive-element:hover rect[fill="#ffffff"], 
+.interactive-element.active rect[fill="#ffffff"] { fill: #e0f2fe; }
+
+/* Highlight para Portas */
+.interactive-element:hover .door-leaf,
+.interactive-element.active .door-leaf { stroke: #0284c7; }
+
+.interactive-element:hover .door-arc,
+.interactive-element.active .door-arc { stroke: #38bdf8; }
+
+/* Custom scrollbar para a tabela */
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Oculta interface na hora da impressão */
+@media print {
+    body { background: white; padding: 0; }
+    header, .space-y-6 { display: none; }
+    .lg\:col-span-2 { border: none; box-shadow: none; padding: 0; }
+    svg { max-height: 100vh; transform: scale(1) translate(0,0) !important; }
+    .absolute { display: none; }
+}
+
+/* Efeito de Seleção para Paredes */
+.interactive-element.wall .wall-rect { 
+    fill: #0f172a; /* Cor base idêntica ao fundo */
+    transition: fill 0.2s; 
+}
+.interactive-element.wall:hover .wall-rect,
+.interactive-element.wall.active .wall-rect { 
+    fill: #38bdf8; /* Azul claro ao selecionar */
+    opacity: 0.8;
+}
