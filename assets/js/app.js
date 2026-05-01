@@ -5,24 +5,17 @@ import BlueprintMap from './components/BlueprintMap.js';
 import SidebarPanel from './components/SidebarPanel.js';
 import ModalGallery from './components/ModalGallery.js';
 import LightBox from './components/LightBox.js';
+import InfoModal from './components/InfoModal.js'; // <-- NOVO
 
 createApp({
     components: {
-        AppHeader, BlueprintMap, SidebarPanel, ModalGallery, LightBox
+        AppHeader, BlueprintMap, SidebarPanel, ModalGallery, LightBox, InfoModal // <-- Adicionado aqui
     },
     setup() {
         return { store };
     },
     methods: {
-        nextImage() {
-            const idx = store.currentGalleryImages.indexOf(store.lightboxImage);
-            const nextIdx = (idx + 1) % store.currentGalleryImages.length;
-            store.lightboxImage = store.currentGalleryImages[nextIdx];
-        },
-        prevImage() {
-            const idx = store.currentGalleryImages.indexOf(store.lightboxImage);
-            const prevIdx = (idx - 1 + store.currentGalleryImages.length) % store.currentGalleryImages.length;
-            store.lightboxImage = store.currentGalleryImages[prevIdx];
-        }
+        nextImage() { store.nextImage(); },
+        prevImage() { store.prevImage(); }
     }
 }).mount('#app');

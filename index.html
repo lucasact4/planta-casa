@@ -16,6 +16,11 @@
             <blueprint-map></blueprint-map>
             <sidebar-panel></sidebar-panel>
         </div>
+        <info-modal 
+            :show="store.showInfoModal" 
+            @close="store.showInfoModal = false">
+        </info-modal>
+
         <modal-gallery 
             :show="store.showGallery" 
             :images="store.currentGalleryImages"

@@ -84,7 +84,7 @@ export const planData = {
             images: ['assets/images/portas_janelas/portao_quintal_corredor.jpg'] 
         },
         { id: 'd6', type: 'door', name: 'Porta (Quarto 3)', size: '0.70m', color: '#94a3b8', gap: { x: 470, y: 1292, w: 70, h: 15 }, leaf: { x1: 470, y1: 1307, x2: 470, y2: 1377 }, arc: 'M 470 1377 A 70 70 0 0 0 540 1307' },
-        { id: 'd9', type: 'gate', name: 'Portão Social Frontal', size: '0.88m', color: '#64748b', gap: { x: 15, y: 132, w: 80, h: 15 }, leaf: { x1: 15, y1: 147, x2: 15, y2: 235 }, arc: 'M 15 235 A 90 90 0 0 0 95 147', images: ['assets/images/portas_janelas/portao_social_frontal.jpg'] }
+        { id: 'd9', type: 'gate', name: 'Portão Social Interno', size: '0.88m', color: '#64748b', gap: { x: 15, y: 132, w: 80, h: 15 }, leaf: { x1: 15, y1: 147, x2: 15, y2: 235 }, arc: 'M 15 235 A 90 90 0 0 0 95 147', images: ['assets/images/portas_janelas/portao_social_frontal.jpg'] }
     ],
     windows: [
         { id: 'w1', type: 'gate', name: 'Portão da Garagem', size: '2.65m', color: '#64748b', x: 155, y: 0, w: 265, h: 15, images: ['assets/images/portas_janelas/portao_da_garagem.jpg'] },

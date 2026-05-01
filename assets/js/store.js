@@ -7,9 +7,10 @@ export const store = reactive({
     
     showGallery: false,
     showLightbox: false,
+    showInfoModal: false, // <-- NOVO: Controle do Modal de Informações
     lightboxImage: null,
     currentGalleryImages: [],
-    lightboxIndex: 0, // Novo: rastreia a posição da imagem
+    lightboxIndex: 0,
 
     toggleElement(element) {
         if (this.activeElement && this.activeElement.id === element.id) {
@@ -41,12 +42,13 @@ export const store = reactive({
         if (this.lightboxIndex > 0) {
             this.lightboxIndex--;
         } else {
-            this.lightboxIndex = this.currentGalleryImages.length - 1; // Vai para a última
+            this.lightboxIndex = this.currentGalleryImages.length - 1;
         }
     },
 
     closeAll() {
         this.showGallery = false;
         this.showLightbox = false;
+        this.showInfoModal = false; // <-- Fecha o modal de info também
     }
 });
