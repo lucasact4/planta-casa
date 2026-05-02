@@ -103,7 +103,7 @@ export default {
                         <!-- Footer do Modal com Alerta Final -->
                         <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700 text-center">
                             <p class="text-[11px] text-slate-400 dark:text-slate-500 italic">
-                                * Este anúncio contém 20 fotos reais que detalham todos os cômodos e a conservação do imóvel.
+                                * Este website contém 44 fotos reais que detalham todos os cômodos e a conservação do imóvel.
                             </p>
                         </div>
                     </div>
