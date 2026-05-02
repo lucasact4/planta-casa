@@ -3,9 +3,9 @@ export const planData = {
         { 
             id: 'entrada', type: 'room', name: 'Entrada', w: 750, h: 117, x: 15, y: 15, color: '#fee28b', area: 8.6, 
             images: [
+                'assets/images/frente_da_casa_portão_fechado.jpg',
                 'assets/images/entrada.jpg', 
-                'assets/images/frente_da_casa_retrato.jpg', 
-                'assets/images/frente_da_casa_portão_fechado.jpg', 
+                'assets/images/frente_da_casa_retrato.jpg',  
                 'assets/images/frente_da_casa_portão_aberto.jpg'
             ] 
         },
