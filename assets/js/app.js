@@ -5,11 +5,12 @@ import BlueprintMap from './components/BlueprintMap.js';
 import SidebarPanel from './components/SidebarPanel.js';
 import ModalGallery from './components/ModalGallery.js';
 import LightBox from './components/LightBox.js';
-import InfoModal from './components/InfoModal.js'; // <-- NOVO
+import InfoModal from './components/InfoModal.js';
+import GlobalGalleryModal from './components/GlobalGalleryModal.js'; // <-- NOVO
 
 createApp({
     components: {
-        AppHeader, BlueprintMap, SidebarPanel, ModalGallery, LightBox, InfoModal // <-- Adicionado aqui
+        AppHeader, BlueprintMap, SidebarPanel, ModalGallery, LightBox, InfoModal, GlobalGalleryModal // <-- Adicionado
     },
     setup() {
         return { store };

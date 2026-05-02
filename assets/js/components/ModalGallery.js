@@ -1,38 +1,40 @@
 export default {
-    name: 'ModalGallery',
-    props: ['images', 'show'],
-    // CORREÇÃO: Declarando os eventos para o Vue não reclamar
+    props: ['show', 'images'],
     emits: ['close', 'open-lightbox'],
     methods: {
-        isVideo(path) { return path && path.toLowerCase().endsWith('.mp4'); }
+        // CORREÇÃO: Agora verifica se é objeto ou string antes de tratar o caminho
+        isVideo(image) {
+            const path = typeof image === 'string' ? image : image.src;
+            return path && path.toLowerCase().endsWith('.mp4');
+        },
+        // CORREÇÃO: Pega o link correto para a miniatura
+        getImageSrc(image) {
+            return typeof image === 'string' ? image : image.src;
+        }
     },
     template: `
         <Teleport to="body">
-            <div v-if="show" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-sm" @click.self="$emit('close')">
-                <div class="bg-slate-800 border border-slate-700 w-full max-w-5xl rounded-3xl overflow-hidden shadow-2xl animate-[fadeIn_0.3s_ease-out]">
-                    <div class="p-6 border-b border-slate-700 flex justify-between items-center bg-slate-800/50">
-                        <div>
-                            <small class="text-blue-400 font-mono flex items-center gap-2">
-                                <i class="fas fa-folder-open"></i> DATABASE_IMG_STORAGE
-                            </small>
-                            <h3 class="text-xl font-bold text-white">Galeria Completa</h3>
-                        </div>
-                        <div class="flex items-center gap-4">
-                            <span class="badge px-3 py-1 bg-slate-700 text-slate-300 rounded-full text-xs font-mono">FILES: {{ images.length }}</span>
-                            <button @click="$emit('close')" class="text-slate-400 hover:text-white transition-colors text-2xl">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
+            <div v-if="show" class="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-sm" @click.self="$emit('close')">
+                <div class="bg-white dark:bg-slate-900 w-full max-w-4xl max-h-[90vh] rounded-3xl overflow-hidden shadow-2xl flex flex-col animate-[fadeIn_0.3s_ease-out]">
+                    
+                    <div class="px-6 py-5 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center shrink-0">
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-white">Galeria do Cômodo</h3>
+                        <button @click="$emit('close')" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:bg-slate-200 transition-colors">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
                     </div>
-                    <div class="p-6 overflow-y-auto max-h-[70vh] custom-scrollbar bg-slate-900/50">
-                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                            <div v-for="(img, idx) in images" :key="idx" 
+
+                    <div class="p-6 overflow-y-auto custom-scrollbar flex-1">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            <div v-for="(image, idx) in images" :key="idx" 
                                  @click="$emit('open-lightbox', idx)"
-                                 class="group relative aspect-square rounded-xl overflow-hidden cursor-pointer border border-slate-700 hover:border-blue-500 transition-all">
-                                <video v-if="isVideo(img)" :src="img" muted class="w-full h-full object-cover"></video>
-                                <img v-else :src="img" loading="lazy" class="w-full h-full object-cover">
-                                <div class="absolute inset-0 bg-blue-600/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                                    <i :class="isVideo(img) ? 'fas fa-search-plus' : 'fas fa-search-plus'" class="text-white text-xl"></i>
+                                 class="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                                
+                                <video v-if="isVideo(image)" :src="getImageSrc(image)" class="w-full h-full object-cover"></video>
+                                <img v-else :src="getImageSrc(image)" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                                
+                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                    <i class="fas fa-expand text-white opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all"></i>
                                 </div>
                             </div>
                         </div>

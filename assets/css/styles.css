@@ -1,67 +1,152 @@
+/* ==========================================================================
+   CONFIGURAÇÕES GERAIS
+   ========================================================================== */
 body { 
-    background-color: #f8fafc; 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
 
+/* ==========================================================================
+   GRID PROFISSIONAL (Estilo AutoCAD / Papel Milimetrado)
+   ========================================================================== */
 .blueprint-bg {
-    background-size: 20px 20px;
+    background-color: #f8fafc;
+    /* Grid duplo: Linhas principais a cada 100px e secundárias a cada 20px */
     background-image:
-        linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+        linear-gradient(rgba(15, 23, 42, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.06) 1px, transparent 1px),
+        linear-gradient(rgba(15, 23, 42, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15, 23, 42, 0.02) 1px, transparent 1px);
+    background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+    background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+    transition: background-color 0.4s ease;
 }
 
-.room { transition: filter 0.2s ease-in-out; cursor: pointer; }
-.room:hover { filter: brightness(0.92); }
-.room.active { filter: brightness(0.85); }
+/* Grid Profissional no Modo Escuro */
+.dark .blueprint-bg {
+    background-color: #0f172a; /* Slate 900 */
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+}
 
-/* Estilos de Arquitetura */
-.door-arc { fill: none; stroke: #94a3b8; stroke-width: 1.5; stroke-dasharray: 4 2; }
-.door-leaf { stroke: #334155; stroke-width: 3.5; stroke-linecap: round; }
-.window-box { fill: #ffffff; stroke: #1e293b; stroke-width: 1.5; }
-.window-line { stroke: #1e293b; stroke-width: 1; opacity: 0.7; }
+/* ==========================================================================
+   CÔMODOS (Efeito 3D e Profundidade)
+   ========================================================================== */
+.room { 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    cursor: pointer; 
+    stroke: rgba(0, 0, 0, 0.06); /* Borda sutil separando os cômodos */
+    stroke-width: 1.5px;
+    stroke-linejoin: round;
+}
 
-/* Adição: Classes Interativas para Portas e Janelas */
-.interactive-element { cursor: pointer; transition: all 0.2s; }
+/* Hover: o cômodo ganha sombra e parece saltar da planta */
+.room:hover { 
+    filter: brightness(0.95) drop-shadow(0px 8px 12px rgba(0,0,0,0.15)); 
+}
+.room.active { 
+    filter: brightness(0.90) drop-shadow(0px 12px 20px rgba(0,0,0,0.25)); 
+}
 
-/* Highlight para Janelas e Passagens */
+/* Cômodos no Modo Escuro */
+.dark .room { 
+    opacity: 0.85; 
+    stroke: rgba(255, 255, 255, 0.08); 
+}
+.dark .room:hover { 
+    opacity: 1; 
+    filter: brightness(1.15) drop-shadow(0px 8px 12px rgba(0,0,0,0.4)); 
+}
+.dark .room.active { 
+    opacity: 1; 
+    filter: brightness(1.25) drop-shadow(0px 12px 20px rgba(0,0,0,0.6)); 
+}
+
+/* ==========================================================================
+   ESTILOS DE ARQUITETURA (Portas, Janelas e Paredes)
+   ========================================================================== */
+.interactive-element { 
+    cursor: pointer; 
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+/* Paredes Base */
+.interactive-element.wall .wall-rect { 
+    fill: #1e293b; /* Cinza chumbo claro no tema claro */
+    stroke: #0f172a; 
+    stroke-width: 1px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+
+/* PAREDES MODO ESCURO (Preto absoluto com borda branca/cinza claro) */
+.dark .interactive-element.wall .wall-rect { 
+    fill: #000000; 
+    stroke: #94a3b8; /* Borda visível para separar do fundo */
+    stroke-width: 1.5px;
+}
+
+/* Hover Paredes */
+.interactive-element.wall:hover .wall-rect,
+.interactive-element.wall.active .wall-rect { 
+    fill: #0ea5e9; stroke: #0284c7;
+}
+
+/* Portas */
+.door-leaf { 
+    stroke: #334155; stroke-width: 4; stroke-linecap: round; transition: all 0.3s; 
+}
+.door-arc { 
+    fill: rgba(148, 163, 184, 0.08); stroke: #94a3b8; stroke-width: 1.5; stroke-dasharray: 4 3; transition: all 0.3s; 
+}
+.dark .door-leaf { stroke: #cbd5e1; }
+.dark .door-arc { stroke: #64748b; fill: rgba(255, 255, 255, 0.03); }
+
+/* JANELAS (Sempre cor de vidro, independente do tema) */
+.window-box { 
+    fill: #e0f2fe !important; /* Azul vidro clarinho fixo */
+    stroke: #0284c7 !important; /* Borda azul nítida fixa */
+    stroke-width: 1.5; transition: all 0.3s; 
+}
+.window-line { 
+    stroke: #0284c7 !important; stroke-width: 1; transition: all 0.3s; 
+}
+
+/* Highlights (Hover) para Portas e Janelas */
 .interactive-element:hover .window-box, 
-.interactive-element.active .window-box { fill: #e0f2fe; stroke: #0284c7; }
+.interactive-element.active .window-box { fill: #bae6fd !important; stroke: #0369a1 !important; }
 
-.interactive-element.passage:hover, 
-.interactive-element.passage.active { fill: #bae6fd; transition: fill 0.2s; }
-
-.interactive-element:hover rect[fill="#ffffff"], 
-.interactive-element.active rect[fill="#ffffff"] { fill: #e0f2fe; }
-
-/* Highlight para Portas */
 .interactive-element:hover .door-leaf,
 .interactive-element.active .door-leaf { stroke: #0284c7; }
 
 .interactive-element:hover .door-arc,
-.interactive-element.active .door-arc { stroke: #38bdf8; }
+.interactive-element.active .door-arc { stroke: #38bdf8; fill: rgba(56, 189, 248, 0.1); }
 
-/* Custom scrollbar para a tabela */
+/* ==========================================================================
+   SCROLLBAR CUSTOMIZADA
+   ========================================================================== */
 .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-.custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+.custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
 .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-/* Oculta interface na hora da impressão */
-@media print {
-    body { background: white; padding: 0; }
-    header, .space-y-6 { display: none; }
-    .lg\:col-span-2 { border: none; box-shadow: none; padding: 0; }
-    svg { max-height: 100vh; transform: scale(1) translate(0,0) !important; }
-    .absolute { display: none; }
-}
+.dark .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+.dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; }
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
 
-/* Efeito de Seleção para Paredes */
-.interactive-element.wall .wall-rect { 
-    fill: #0f172a; /* Cor base idêntica ao fundo */
-    transition: fill 0.2s; 
-}
-.interactive-element.wall:hover .wall-rect,
-.interactive-element.wall.active .wall-rect { 
-    fill: #38bdf8; /* Azul claro ao selecionar */
-    opacity: 0.8;
+/* ==========================================================================
+   IMPRESSÃO
+   ========================================================================== */
+@media print {
+    body { background: white !important; padding: 0; color: black !important; }
+    header, .space-y-6, .absolute { display: none !important; }
+    .lg\:col-span-2 { border: none !important; box-shadow: none !important; padding: 0 !important; background: white !important; }
+    svg { max-height: 100vh; transform: scale(1) translate(0,0) !important; filter: none !important; opacity: 1 !important; }
+    
+    .blueprint-bg { background-image: none !important; }
+    .door-arc { stroke: #94a3b8 !important; fill: none !important; }
+    .door-leaf { stroke: #334155 !important; }
+    .window-box { fill: #ffffff !important; stroke: #1e293b !important; }
+    .room { filter: none !important; stroke: #cbd5e1 !important; }
 }

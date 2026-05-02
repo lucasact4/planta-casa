@@ -5,10 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Planta Interativa do Imóvel</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Habilita o modo escuro por classe
+        }
+    </script>
     <link rel="stylesheet" href="./assets/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-200">
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-200 transition-colors duration-300 antialiased selection:bg-blue-200 dark:selection:bg-blue-900">
     <div id="app" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
         <app-header></app-header>
 
@@ -16,10 +21,17 @@
             <blueprint-map></blueprint-map>
             <sidebar-panel></sidebar-panel>
         </div>
+        
         <info-modal 
             :show="store.showInfoModal" 
             @close="store.showInfoModal = false">
         </info-modal>
+
+        <!-- NOVO MODAL AQUI -->
+        <global-gallery-modal
+            :show="store.showGlobalGallery"
+            @close="store.showGlobalGallery = false">
+        </global-gallery-modal>
 
         <modal-gallery 
             :show="store.showGallery" 

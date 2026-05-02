@@ -10,7 +10,6 @@ export default {
             startY: 0,
             panX: 0,
             panY: 0,
-            // Novas variáveis para controle do toque (Mobile)
             initialDistance: null,
             initialZoom: null
         }
@@ -37,7 +36,6 @@ export default {
         stopDrag() { this.isDragging = false; },
 
         // --- CONTROLES TOUCH/MOBILE ---
-        // Calcula a distância entre dois dedos na tela
         getDistance(touches) {
             const dx = touches[0].clientX - touches[1].clientX;
             const dy = touches[0].clientY - touches[1].clientY;
@@ -45,12 +43,10 @@ export default {
         },
         handleTouchStart(e) {
             if (e.touches.length === 1) {
-                // Um dedo: Inicia o Pan (Arrastar)
                 this.isDragging = true;
                 this.startX = e.touches[0].clientX;
                 this.startY = e.touches[0].clientY;
             } else if (e.touches.length === 2) {
-                // Dois dedos: Inicia o Zoom (Pinça)
                 this.isDragging = false;
                 this.initialDistance = this.getDistance(e.touches);
                 this.initialZoom = this.zoomLevel;
@@ -58,7 +54,6 @@ export default {
         },
         handleTouchMove(e) {
             if (e.touches.length === 1 && this.isDragging) {
-                // Arrastando com um dedo
                 const dx = e.touches[0].clientX - this.startX;
                 const dy = e.touches[0].clientY - this.startY;
                 this.panX += dx / this.zoomLevel;
@@ -66,15 +61,11 @@ export default {
                 this.startX = e.touches[0].clientX;
                 this.startY = e.touches[0].clientY;
             } else if (e.touches.length === 2 && this.initialDistance) {
-                // Fazendo pinça com dois dedos
                 const currentDistance = this.getDistance(e.touches);
                 const scale = currentDistance / this.initialDistance;
                 let newZoom = this.initialZoom * scale;
-                
-                // Limita o zoom entre 0.4x e 3x
                 if (newZoom < 0.4) newZoom = 0.4;
                 if (newZoom > 3) newZoom = 3;
-                
                 this.zoomLevel = newZoom;
             }
         },
@@ -83,7 +74,6 @@ export default {
                 this.initialDistance = null;
             }
             if (e.touches.length === 1) {
-                // Se o usuário soltou um dedo e deixou o outro, retoma o arraste sem pular a tela
                 this.isDragging = true;
                 this.startX = e.touches[0].clientX;
                 this.startY = e.touches[0].clientY;
@@ -93,25 +83,37 @@ export default {
         }
     },
     template: `
-        <div class="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden relative flex justify-center blueprint-bg h-[55vh] lg:h-auto lg:min-h-[800px]"
+        <div class="lg:col-span-2 bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-700 overflow-hidden relative flex justify-center blueprint-bg h-[55vh] lg:h-auto lg:min-h-[800px] transition-colors duration-300"
              style="touch-action: none;"
              @mousedown="startDrag" @mousemove="onDrag" @mouseup="stopDrag" @mouseleave="stopDrag" @wheel.prevent="handleWheel"
              @touchstart="handleTouchStart" @touchmove.prevent="handleTouchMove" @touchend="handleTouchEnd" @touchcancel="handleTouchEnd">
              
-            <div class="absolute top-4 right-4 flex flex-col gap-2 bg-white/70 backdrop-blur-md p-2 rounded-2xl shadow-lg border border-white/50 z-10">
-                <button @click="zoomIn" class="w-10 h-10 md:w-9 md:h-9 flex items-center justify-center bg-white hover:bg-slate-50 rounded-xl text-slate-700 font-bold text-xl shadow-sm border border-slate-100 transition-all active:scale-95">+</button>
-                <button @click="zoomOut" class="w-10 h-10 md:w-9 md:h-9 flex items-center justify-center bg-white hover:bg-slate-50 rounded-xl text-slate-700 font-bold text-xl shadow-sm border border-slate-100 transition-all active:scale-95">-</button>
-                <div class="h-px bg-slate-200/60 w-full my-0.5"></div>
-                <button @click="resetZoom" class="w-10 h-10 md:w-9 md:h-9 flex items-center justify-center bg-white hover:bg-slate-50 rounded-xl text-slate-700 shadow-sm border border-slate-100 transition-all active:scale-95">
+            <!-- Botões de Zoom -->
+            <div class="absolute top-4 right-4 flex flex-col gap-2 bg-white/70 dark:bg-slate-800/70 backdrop-blur-md p-2 rounded-2xl shadow-lg border border-white/50 dark:border-slate-600/50 z-10 transition-colors">
+                <button @click="zoomIn" class="w-10 h-10 md:w-9 md:h-9 flex items-center justify-center bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-xl text-slate-700 dark:text-slate-200 font-bold text-xl shadow-sm border border-slate-100 dark:border-slate-600 transition-all active:scale-95">+</button>
+                <button @click="zoomOut" class="w-10 h-10 md:w-9 md:h-9 flex items-center justify-center bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-xl text-slate-700 dark:text-slate-200 font-bold text-xl shadow-sm border border-slate-100 dark:border-slate-600 transition-all active:scale-95">-</button>
+                <div class="h-px bg-slate-200/60 dark:bg-slate-600/60 w-full my-0.5 transition-colors"></div>
+                <button @click="resetZoom" class="w-10 h-10 md:w-9 md:h-9 flex items-center justify-center bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 rounded-xl text-slate-700 dark:text-slate-200 shadow-sm border border-slate-100 dark:border-slate-600 transition-all active:scale-95">
                     <svg class="w-4 h-4 md:w-4 md:h-4 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
                 </button>
+            </div>
+
+            <!-- NOVO: Alerta de Medidas Flutuante -->
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/80 dark:bg-slate-800/80 backdrop-blur-md px-4 py-2 rounded-xl shadow-md border border-slate-200/50 dark:border-slate-700/50 z-10 w-11/12 max-w-md text-center pointer-events-none transition-colors">
+                <p class="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight">
+                    <i class="fas fa-info-circle text-blue-500 mr-1"></i>
+                    <strong>Aviso:</strong> As áreas (m²) e medidas apresentadas são valores de referência aproximados, baseados em aferição manual. Podem ocorrer sutis variações em relação à planta oficial.
+                </p>
             </div>
 
             <svg viewBox="-80 -60 980 1680" class="w-full h-full lg:max-h-[850px] drop-shadow-md"
                  :style="{ transform: \`scale(\${zoomLevel}) translate(\${panX}px, \${panY}px)\`, transformOrigin: 'center center', cursor: isDragging ? 'grabbing' : 'grab', transition: isDragging ? 'none' : 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)' }">
                 
                 <defs><marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b" /></marker></defs>
-                <rect x="0" y="0" width="780" height="1550" fill="#0f172a" rx="4" />
+                
+                <!-- Retângulo do Terreno -->
+                <!-- No CSS o Tailwind e o SVG não se falam diretamente tão fácil, mas podemos usar classes para contornar isso se necessário. Por enquanto, a planta base já funciona bem com o fundo do #0f172a no dark mode via CSS -->
+                <rect x="0" y="0" width="780" height="1550" class="fill-slate-900 dark:fill-slate-950 transition-colors" rx="4" />
 
                 <g v-for="wall in store.data.walls" :key="wall.id" class="interactive-element wall" :class="{ 'active': store.activeElement && store.activeElement.id === wall.id }" @click.prevent="store.toggleElement(wall)">
                     <rect :x="wall.x" :y="wall.y" :width="wall.w" :height="wall.h" class="wall-rect" />
@@ -139,11 +141,11 @@ export default {
                     <line v-else :x1="win.x + win.w/2" :y1="win.y" :x2="win.x + win.w/2" :y2="win.y + win.h" class="window-line" />
                 </g>
 
-                <g class="measurements font-mono fill-slate-400 text-[14px]">
+                <g class="measurements font-mono fill-slate-400 dark:fill-slate-500 text-[14px]">
                     <text x="390" y="-30" text-anchor="middle" class="font-medium">7.80 m</text>
-                    <line x1="0" y1="-15" x2="780" y2="-15" stroke="#cbd5e1" stroke-width="2" marker-start="url(#arrow)" marker-end="url(#arrow)" />
+                    <line x1="0" y1="-15" x2="780" y2="-15" stroke="#cbd5e1" stroke-width="2" marker-start="url(#arrow)" marker-end="url(#arrow)" class="dark:stroke-slate-600"/>
                     <text x="-40" y="775" text-anchor="middle" transform="rotate(-90, -40, 775)" class="font-medium">15.50 m</text>
-                    <line x1="-25" y1="0" x2="-25" y2="1550" stroke="#cbd5e1" stroke-width="2" marker-start="url(#arrow)" marker-end="url(#arrow)" />
+                    <line x1="-25" y1="0" x2="-25" y2="1550" stroke="#cbd5e1" stroke-width="2" marker-start="url(#arrow)" marker-end="url(#arrow)" class="dark:stroke-slate-600"/>
                 </g>
             </svg>
         </div>
