@@ -23,7 +23,7 @@ export default {
                         <!-- Destaque Preço e Benefícios -->
                         <div class="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200 dark:border-green-800/50 rounded-2xl p-6 mb-6 flex flex-col sm:flex-row justify-between items-center gap-4">
                             <div>
-                                <span class="block text-green-700 dark:text-green-400 text-sm font-bold uppercase tracking-wider mb-1">Valor de Venda</span>
+                                <span class="block text-green-700 dark:text-green-400 text-sm font-bold uppercase tracking-wider mb-1">Valor inicial (Negociável)</span>
                                 <span class="text-3xl md:text-4xl font-extrabold text-green-800 dark:text-green-300">R$ 160.000,00</span>
                             </div>
                             <div class="text-center sm:text-right text-sm text-emerald-700 dark:text-emerald-400 font-medium space-y-1">
